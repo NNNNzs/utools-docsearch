@@ -1,0 +1,29 @@
+{
+  "logo": "logo_N.png",
+  "main": "build/index.html",
+  "preload": "preload.js",
+  "development": {
+    "main": "http://127.0.0.1:3000/"
+  },
+  "features": [
+    {
+      "code": "utools-docsearch-setting",
+      "explain": "utools-docsearch 配置页面",
+      "cmds": [
+        "docsearch-setting"
+      ]
+    },
+    {
+      "code": "utools-docsearch",
+      "explain": "配置页面",
+      "cmds": [
+        {
+          "type": "regex",
+          "label": "在nnnnzs.cn中搜索",
+          "match": "/c:/i",
+          "minLength": 1
+        }
+      ]
+    }
+  ]
+}
