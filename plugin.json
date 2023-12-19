@@ -1,6 +1,6 @@
 {
   "logo": "logo_N.png",
-  "main": "build/index.html",
+  "main": "index.html",
   "preload": "preload.js",
   "development": {
     "main": "http://127.0.0.1:3000/"

@@ -12,6 +12,7 @@ function Setting() {
     const dbConfig = utools.db.get('config')
     form.setFieldsValue(dbConfig.data);
     setConfig(dbConfig.data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const cancalConfig = () => {
@@ -19,8 +20,10 @@ function Setting() {
     form.setFieldsValue(dbConfig.data);
     setConfig(dbConfig.data)
   }
-  const rules = [{ required: true, }]
+  const rules = [{ required: true, }];
+  
   const validateMessages = {
+    // eslint-disable-next-line no-template-curly-in-string
     required: '${label}必填!',
   }
 
@@ -54,7 +57,9 @@ function Setting() {
     newConfig.configList.splice(index, 1);
     setConfig(newConfig)
   }
+
   const text = '唤起搜索的关键词，如热键配置【v】分隔符【:】测【v:】唤起';
+
   return (
     <Form
       name="basic"
@@ -78,13 +83,6 @@ function Setting() {
             </Form.Item>
           </Tooltip>
         </Col>
-        {/* <Col span={8}>
-          <Tooltip placement="bottom" title='使用facetFilters:[language:${}]过滤'>
-            <Form.Item label="语言" rules={rules} name={['language']}>
-              <Input placeholder='zh' />
-            </Form.Item>
-          </Tooltip>
-        </Col> */}
       </Row>
       {
         config.configList.map((e, index) => {

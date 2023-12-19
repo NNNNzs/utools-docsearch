@@ -21,9 +21,10 @@ const applyConfig = () => {
   ];
 
   const config = utools.db.get('config');
-  const split = config.data.split || ':';
+
 
   let configList = defaultConfigList;
+  let split = ':'
 
   if (!config) {
     utools.db.put({
@@ -36,6 +37,7 @@ const applyConfig = () => {
       }
     });
   } else {
+    split = config.data.split;
     configList = config.data.configList;
   }
 
