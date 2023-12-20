@@ -1,16 +1,10 @@
 /* eslint-disable no-undef */
 
 const applyConfig = () => {
+  const defaultSplitChar = ":"
   const defaultConfigList = [
     {
-      title: 'nnnnzs.cn',
-      hotKey: 'n',
-      appId: "74Q4ZJSGIE",
-      indexName: 'nnnnzs',
-      apiKey: '0d46f0335810c99223e60c13412be864',
-      disabled: false,
-    },
-    {
+      id: "vue",
       hotKey: 'v',
       title: 'vuejs.org',
       appId: "ML0LEBN7FQ",
@@ -22,15 +16,15 @@ const applyConfig = () => {
 
   const config = utools.db.get('config');
 
-
+  // 需要动态添加配置的数组
   let configList = defaultConfigList;
-  let split = ':'
+
+  let split = defaultSplitChar;
 
   if (!config) {
     utools.db.put({
       _id: 'config',
-      data:
-      {
+      data: {
         configList: configList,
         split: split,
         language: 'zh'
@@ -38,7 +32,7 @@ const applyConfig = () => {
     });
   } else {
     split = config.data.split;
-    configList = config.data.configList;
+    configList = config.data?.configList || [];
   }
 
   const cmds = configList.map((e) => {
@@ -50,15 +44,18 @@ const applyConfig = () => {
     }
   });
 
-  const features = {
-    "code": "utools-docsearch",
-    "explain": "docsearch匹配网站",
-    "cmds": cmds
-  };
+  if (cmds.length > 0) {
+    const features = {
+      "code": "utools-docsearch",
+      "explain": "docsearch匹配网站",
+      "cmds": cmds
+    };
+    utools.setFeature(features);
+  }
 
-  utools.setFeature(features);
 
 }
+
 utools.onPluginReady(() => {
   applyConfig()
 })

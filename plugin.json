@@ -1,5 +1,5 @@
 {
-  "logo": "logo_N.png",
+  "logo": "algolia-icon.png",
   "main": "index.html",
   "preload": "preload.js",
   "development": {
@@ -10,7 +10,7 @@
       "code": "utools-docsearch-setting",
       "explain": "utools-docsearch 配置页面",
       "cmds": [
-        "docsearch-setting"
+        "docsearch设置"
       ]
     },
     {

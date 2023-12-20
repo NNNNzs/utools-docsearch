@@ -1,7 +1,7 @@
 const fs = require('fs');
 // const { spawn } = require('node:child_process');
 
-const moveFile = ['preload.js', 'plugin.json', 'logo_N.png'];
+const moveFile = ['preload.js', 'plugin.json', 'algolia-icon.png'];
 
 moveFile.forEach(e => {
   fs.copyFileSync(e, `build/${e}`);

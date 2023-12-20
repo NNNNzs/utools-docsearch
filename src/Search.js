@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import { DocSearchModal } from "@docsearch/react";
-import { useParams, useLocation, useSearchParams } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useParams, useLocation } from "react-router-dom";
 import "@docsearch/css";
 
 const baseSize = { width: 1000, height: 600 };
@@ -13,15 +12,12 @@ const navigateWindow = (params) => {
 function Search() {
   const param = useParams();
   const hotKey = param.payload;
-
   const location = useLocation();
   const query = location.state.query
 
   let appId = '';
   let indexName = '';
   let apiKey = '';
-
-
   const config = utools.db.get('config');
   const current = config?.data?.configList.find(e => e.hotKey === hotKey);
   if (current) {
@@ -31,6 +27,7 @@ function Search() {
   } else {
     return <div>未找到配置</div>
   }
+
 
   return (
     <>

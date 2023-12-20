@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import React from 'react';
 import { createRoot } from "react-dom/client";
 import {
   createHashRouter,
@@ -11,9 +10,7 @@ import {
 import './index.css';
 import Search from './Search';
 import Setting from './Setting';
-import { useState, useEffect, useRef } from 'react'
-
-export const GlobalContext = React.createContext();
+import { useState } from 'react'
 
 const router = createHashRouter([
   {
@@ -43,8 +40,6 @@ function App() {
   const navigate = useNavigate();
 
   const handlerPluginEnter = ({ code, type, payload, option }) => {
-    console.log('code', code);
-
     const config = utools.db.get('config');
     setSplitChar(config.data.split);
 
@@ -72,5 +67,5 @@ function ErrorBoundary() {
   let error = useRouteError();
   console.error(error);
   // Uncaught ReferenceError: path is not defined
-  return <div>Dang!</div>;
+  return <div>页面加载失败，请反馈开发者!</div>;
 }

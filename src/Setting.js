@@ -2,14 +2,16 @@
 /* eslint-disable no-undef */
 import { Input, Form, Button, Col, Row, Divider, Space, Tooltip, message } from 'antd';
 import { useState, useEffect, } from 'react';
+const text = '唤起搜索的关键词，如热键配置【v】分隔符【:】则utools输入【v:】唤起搜索';
+
 function Setting() {
 
   const [config, setConfig] = useState({ configList: [], split: '' });
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
+  const dbConfig = utools.db.get('config')
 
   useEffect(() => {
-    const dbConfig = utools.db.get('config')
     form.setFieldsValue(dbConfig.data);
     setConfig(dbConfig.data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -20,15 +22,18 @@ function Setting() {
     form.setFieldsValue(dbConfig.data);
     setConfig(dbConfig.data)
   }
+
   const rules = [{ required: true, }];
-  
+
   const validateMessages = {
     // eslint-disable-next-line no-template-curly-in-string
     required: '${label}必填!',
   }
 
   const onFinish = (values) => {
-    console.log('onFinish', values);
+    if (!values.configList) {
+      values.configList = []
+    }
     const dbConfig = utools.db.get('config')
     utools.db.put({
       _id: 'config',
@@ -40,25 +45,29 @@ function Setting() {
   }
 
   const addConfig = () => {
-    const newConfig = { ...config };
+    const newConfig = form.getFieldsValue();
     newConfig.configList.push({
+      id: new Date().valueOf(),
       title: '',
       hotKey: '',
       appId: '',
       indexName: '',
       apiKey: '',
       disabled: false,
-    })
+    });
+
     setConfig(newConfig)
+    form.setFieldsValue(newConfig);
+
   }
 
   const removeConfig = (index) => {
-    const newConfig = { ...config };
+    const newConfig = form.getFieldsValue();
     newConfig.configList.splice(index, 1);
-    setConfig(newConfig)
+    setConfig(newConfig);
+    form.setFieldsValue(newConfig);
   }
 
-  const text = '唤起搜索的关键词，如热键配置【v】分隔符【:】测【v:】唤起';
 
   return (
     <Form
@@ -77,7 +86,6 @@ function Setting() {
       <Row>
         <Col span={8}>
           <Tooltip placement="bottom" title={text}>
-
             <Form.Item label="分隔符" rules={rules} name={['split']}>
               <Input placeholder=':' />
             </Form.Item>
@@ -87,7 +95,7 @@ function Setting() {
       {
         config.configList.map((e, index) => {
           return (
-            <div key={index}>
+            <div key={e.id}>
               <Row>
                 <Col span={8}>
                   <Form.Item label="名称" rules={rules} name={['configList', index, 'title']}>
@@ -123,16 +131,12 @@ function Setting() {
                 <Col span={8}>
                   <Form.Item label=' ' colon={false}>
                     <Space>
-                      <Button type="primary" onClick={addConfig}>
-                        添加
-                      </Button>
                       <Button type="primary" onClick={() => { removeConfig(index) }}>
                         移除
                       </Button>
                     </Space>
                   </Form.Item>
                 </Col>
-
               </Row>
               <Divider></Divider>
             </div >
@@ -141,6 +145,9 @@ function Setting() {
       }
       <Row justify="end">
         <Space>
+          <Button type="primary" onClick={addConfig}>
+            添加
+          </Button>
           <Button type="primary" htmlType="submit">
             保存
           </Button>
