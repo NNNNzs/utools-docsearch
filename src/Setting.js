@@ -27,7 +27,11 @@ function Setting() {
   const rules = [{ required: true, }];
 
   const faceFiltersRule = [{
-    required: false, validator(rule, value) {
+    required: false,
+    validator(rule, value) {
+      if (!value) {
+        return Promise.resolve()
+      }
       try {
         JSON.parse(value)
       } catch (error) {
@@ -82,6 +86,15 @@ function Setting() {
     newConfig.configList.splice(index, 1);
     setConfig(newConfig);
     form.setFieldsValue(newConfig);
+  }
+
+  const empty = !config.configList || config.configList.length === 0;
+  const reset = () => {
+    utools.db.remove('config');
+    applyConfig();
+    const dbConfig = utools.db.get('config')
+    form.setFieldsValue(dbConfig.data);
+    setConfig(dbConfig.data)
   }
 
 
@@ -174,6 +187,12 @@ function Setting() {
       }
       <Row justify="end">
         <Space>
+          {empty && <>
+            <Button type="primary" onClick={reset}>
+              初始化
+            </Button>
+          </>
+          }
           <Button type="primary" htmlType="submit">
             保存
           </Button>

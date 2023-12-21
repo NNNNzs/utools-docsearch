@@ -1,29 +1,30 @@
 /* eslint-disable no-undef */
 const version = '1.0.1';
+const defaultSplitChar = ":"
+const defaultConfigList = [
+  {
+    id: "vue",
+    hotKey: 'v',
+    title: 'cn.vuejs.org',
+    appId: "UURH1MHAF7",
+    indexName: 'vuejs_cn2',
+    apiKey: 'c23eb8e7895f42daeaf2bf6f63eb4bf6',
+    facetFilters: "",
+    disabled: false,
+  },
+  {
+    id: "vite",
+    hotKey: 'vi',
+    title: 'cn.vitejs.dev',
+    appId: "7H67QR5P0A",
+    indexName: 'vitejs',
+    apiKey: 'deaab78bcdfe96b599497d25acc6460e',
+    facetFilters: '["tags:cn","lang:zh-CN"]',
+    disabled: false,
+  }
+];
+
 const applyConfig = () => {
-  const defaultSplitChar = ":"
-  const defaultConfigList = [
-    {
-      id: "vue",
-      hotKey: 'v',
-      title: 'cn.vuejs.org',
-      appId: "UURH1MHAF7",
-      indexName: 'vuejs_cn2',
-      apiKey: 'c23eb8e7895f42daeaf2bf6f63eb4bf6',
-      facetFilters: "",
-      disabled: false,
-    },
-    {
-      id: "vite",
-      hotKey: 'vi',
-      title: 'cn.vitejs.dev',
-      appId: "7H67QR5P0A",
-      indexName: 'vitejs',
-      apiKey: 'deaab78bcdfe96b599497d25acc6460e',
-      facetFilters: '["tags:cn","lang:zh-CN"]',
-      disabled: false,
-    }
-  ];
 
   const config = utools.db.get('config');
 
