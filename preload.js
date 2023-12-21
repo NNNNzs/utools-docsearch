@@ -1,15 +1,26 @@
 /* eslint-disable no-undef */
-
+const version = '1.0.1';
 const applyConfig = () => {
   const defaultSplitChar = ":"
   const defaultConfigList = [
     {
       id: "vue",
       hotKey: 'v',
-      title: 'vuejs.org',
-      appId: "ML0LEBN7FQ",
-      indexName: 'vuejs',
-      apiKey: 'f49cbd92a74532cc55cfbffa5e5a7d01',
+      title: 'cn.vuejs.org',
+      appId: "UURH1MHAF7",
+      indexName: 'vuejs_cn2',
+      apiKey: 'c23eb8e7895f42daeaf2bf6f63eb4bf6',
+      facetFilters: "",
+      disabled: false,
+    },
+    {
+      id: "vite",
+      hotKey: 'vi',
+      title: 'cn.vitejs.dev',
+      appId: "7H67QR5P0A",
+      indexName: 'vitejs',
+      apiKey: 'deaab78bcdfe96b599497d25acc6460e',
+      facetFilters: '["tags:cn","lang:zh-CN"]',
       disabled: false,
     }
   ];
@@ -25,9 +36,9 @@ const applyConfig = () => {
     utools.db.put({
       _id: 'config',
       data: {
+        version: version,
         configList: configList,
         split: split,
-        language: 'zh'
       }
     });
   } else {

@@ -3,6 +3,7 @@
 import { Input, Form, Button, Col, Row, Divider, Space, Tooltip, message } from 'antd';
 import { useState, useEffect, } from 'react';
 const text = '唤起搜索的关键词，如热键配置【v】分隔符【:】则utools输入【v:】唤起搜索';
+const faceFilterTooptip = 'docsearch的facetFilters参数，JSON格式，如：["tags:cn","lang:zh-CN"]';
 
 function Setting() {
 
@@ -25,6 +26,17 @@ function Setting() {
 
   const rules = [{ required: true, }];
 
+  const faceFiltersRule = [{
+    required: false, validator(rule, value) {
+      try {
+        JSON.parse(value)
+      } catch (error) {
+        return Promise.reject('JSON格式错误')
+      }
+      return Promise.resolve()
+    }
+  }];
+
   const validateMessages = {
     // eslint-disable-next-line no-template-curly-in-string
     required: '${label}必填!',
@@ -46,6 +58,9 @@ function Setting() {
 
   const addConfig = () => {
     const newConfig = form.getFieldsValue();
+    if (!newConfig.configList) {
+      newConfig.configList = []
+    }
     newConfig.configList.push({
       id: new Date().valueOf(),
       title: '',
@@ -53,6 +68,7 @@ function Setting() {
       appId: '',
       indexName: '',
       apiKey: '',
+      searchParameters: "",
       disabled: false,
     });
 
@@ -73,8 +89,8 @@ function Setting() {
     <Form
       name="basic"
       autoComplete="off"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
+      labelCol={{ span: 7 }}
+      wrapperCol={{ span: 17 }}
       onFinish={onFinish}
       style={{ maxWidth: 1200 }}
       initialValues={config}
@@ -91,6 +107,7 @@ function Setting() {
             </Form.Item>
           </Tooltip>
         </Col>
+
       </Row>
       {
         config.configList.map((e, index) => {
@@ -129,9 +146,21 @@ function Setting() {
                 </Col>
 
                 <Col span={8}>
+                  <Form.Item label={
+                    <Tooltip placement="bottom" title={faceFilterTooptip}>
+                      facetFilters
+                    </Tooltip>
+                  } rules={faceFiltersRule} name={['configList', index, 'facetFilters']}>
+                    <Input laceholder='facetFilters' />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
                   <Form.Item label=' ' colon={false}>
                     <Space>
-                      <Button type="primary" onClick={() => { removeConfig(index) }}>
+                      <Button type="primary" onClick={addConfig}>
+                        添加
+                      </Button>
+                      <Button danger onClick={() => { removeConfig(index) }}>
                         移除
                       </Button>
                     </Space>
@@ -145,13 +174,10 @@ function Setting() {
       }
       <Row justify="end">
         <Space>
-          <Button type="primary" onClick={addConfig}>
-            添加
-          </Button>
           <Button type="primary" htmlType="submit">
             保存
           </Button>
-          <Button type="primary" onClick={cancalConfig}>
+          <Button onClick={cancalConfig}>
             取消
           </Button>
         </Space>
